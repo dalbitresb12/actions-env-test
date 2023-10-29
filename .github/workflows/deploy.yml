@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+      - main
   workflow_dispatch:
     inputs:
       environment:
@@ -11,20 +12,19 @@ on:
         type: choice
         required: true
         options:
-          - Production
           - Staging
+          - Production
 
 jobs:
   deploy-staging:
     name: Staging
-    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.environment == 'Staging')
+    if: (github.event_name == 'push' && github.event.ref == 'refs/heads/develop') || (github.event_name == 'workflow_dispatch' && inputs.environment == 'Staging')
     uses: ./.github/workflows/deploy-generic.yml
     with:
       environment: Staging
   deploy-prod:
     name: Production
-    needs: [deploy-staging]
-    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.environment == 'Production')
+    if: (github.event_name == 'push' && github.event.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && inputs.environment == 'Production')
     uses: ./.github/workflows/deploy-generic.yml
     with:
       environment: Production
