@@ -6,12 +6,17 @@ on:
       environment:
         required: true
         type: string
+      url:
+        required: true
+        type: string
 
 jobs:
   deploy:
     name: Wrangler
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment:
+      name: ${{ inputs.environment }}
+      url: ${{ inputs.url }}
     concurrency: ${{ inputs.environment }}
     steps:
       - run: exit ${{ vars.OUTPUT }}
