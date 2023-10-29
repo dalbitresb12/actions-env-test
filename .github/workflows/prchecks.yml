@@ -1,0 +1,17 @@
+name: PR Checks
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - edited
+
+jobs:
+  pr-title:
+    name: PR title test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo PR title
+        run: echo "${{ github.event.pull_request.title }}"
