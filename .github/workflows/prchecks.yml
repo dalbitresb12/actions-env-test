@@ -14,4 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo PR title
-        run: echo "${{ github.event.pull_request.title }}"
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: echo "$TITLE"
