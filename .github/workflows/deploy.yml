@@ -9,13 +9,11 @@ on:
 jobs:
   deploy-staging:
     name: Staging
-    concurrency: staging
     uses: ./.github/workflows/deploy-generic.yml
     with:
       environment: Staging
   deploy-prod:
     name: Production
-    concurrency: production
     needs: [deploy-staging]
     uses: ./.github/workflows/deploy-generic.yml
     with:

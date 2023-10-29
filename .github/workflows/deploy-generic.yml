@@ -12,5 +12,6 @@ jobs:
     name: Wrangler
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+    concurrency: ${{ inputs.environment }}
     steps:
       - run: exit 0
