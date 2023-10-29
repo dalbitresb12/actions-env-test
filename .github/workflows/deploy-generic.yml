@@ -1,4 +1,4 @@
-name: Deploy
+name: Reusable Deploy
 
 on:
   workflow_call:
@@ -9,8 +9,9 @@ on:
 
 jobs:
   deploy:
-    name: 'Wrangler (env: ${{ inputs.environment }})'
+    name: Wrangler
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+    concurrency: ${{ inputs.environment }}
     steps:
-      - run: exit 0
+      - run: exit ${{ vars.OUTPUT }}

@@ -3,17 +3,28 @@ name: Deploy
 on:
   push:
     branches:
-      - main
       - develop
+      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment in which to deploy the changes
+        type: choice
+        required: true
+        options:
+          - Staging
+          - Production
 
 jobs:
   deploy-staging:
-    if: github.event.ref == 'refs/heads/develop'
+    name: Staging
+    if: (github.event_name == 'push' && github.event.ref == 'refs/heads/develop') || (github.event_name == 'workflow_dispatch' && inputs.environment == 'Staging')
     uses: ./.github/workflows/deploy-generic.yml
     with:
       environment: Staging
   deploy-prod:
-    if: github.event.ref == 'refs/heads/main'
+    name: Production
+    if: (github.event_name == 'push' && github.event.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && inputs.environment == 'Production')
     uses: ./.github/workflows/deploy-generic.yml
     with:
       environment: Production
