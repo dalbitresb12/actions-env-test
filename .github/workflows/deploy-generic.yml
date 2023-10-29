@@ -14,4 +14,4 @@ jobs:
     environment: ${{ inputs.environment }}
     concurrency: ${{ inputs.environment }}
     steps:
-      - run: exit 0
+      - run: exit 1
