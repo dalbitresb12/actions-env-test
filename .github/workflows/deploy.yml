@@ -23,7 +23,8 @@ jobs:
       environment: Staging
   deploy-prod:
     name: Production
-    if: github.event_name == 'workflow_dispatch' && inputs.environment == 'Production'
+    needs: [deploy-staging]
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.environment == 'Production')
     uses: ./.github/workflows/deploy-generic.yml
     with:
       environment: Production
